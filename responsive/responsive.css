@@ -15,51 +15,10 @@
     }
 }
 
-/*
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
+@media screen and (min-width: 1000px) and (max-width: 1100px){ 
+    .garfield {
+        width: 200px; 
+        height: 130px; 
+        background:url(garfield.gif) 0 -133px;
+    }
 }
-
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}
-
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}
-
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}
-
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}
-
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}*/
