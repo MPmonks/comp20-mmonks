@@ -30,3 +30,11 @@
         background:url(garfield.gif) -203px -133px;
     }
 }
+
+@media screen and (min-width: 800px) and (max-width: 900px){ 
+    .garfield {
+        width: 200px; 
+        height: 130px; 
+        background:url(garfield.gif) -401px -133px;
+    }
+}
