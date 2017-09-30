@@ -1,19 +1,21 @@
 /* Mary-Paule Monks */
 
-@media screen 
-  and (min-device-width: 1200px) 
- { 
-    .garfield {width:; height; background:url(garfield.gif) /* insert coordinates here*/ }
+@media screen and (min-width: 1200px) { 
+    .garfield {width: 400px; 
+        height: 130px; 
+        background: url(garfield.gif) 0 0px;
+    }
 }
+
+@media screen and (min-width: 1100px) and (max-width: 1200px){ 
+    .garfield {
+        width: 200px; 
+        height: 130px; 
+        background:url(garfield.gif) -401px 0px;
+    }
+}
+
 /*
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) { 
-
-    .garfield {width:; height; background:url(garfield.gif) /*insert coordinates here }
-}
-
 @media screen 
   and (min-device-width: 1200px) 
   and (max-device-width: 1600px) 
