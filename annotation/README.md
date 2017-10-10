@@ -1,0 +1,2 @@
+As far as I know, all aspects of this project have been correctly implemented. Zach Munro and I discussed the assignment a bit, but not really in much detail.
+I've spent about 3 hours completing this assignment, give or take.
