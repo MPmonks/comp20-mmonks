@@ -29,20 +29,28 @@
                 var request = new XMLHttpRequest();
                 var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
                 var parameters =  "\"login=DeXTiZLm&lat=" + position.coords.latitude.toString() + "&lng=" + position.coords.longitude.toString() + "\"";
+                
                 console.log(parameters);
                 console.log(typeof parameters);
+                
+                //opening the request
                 request.open("POST", url, true);
 
+                //setting the request header
                 request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
+                //waiting for the readystate to become 4 and 
+                //the request status to be 200
+                //aka waiting for a good connection and all the data to come back
                 request.onreadystatechange = function() {
-                    console.log("TODO");
+                    
                     if(request.readyState == 4 && request.status == 200) {
                         rawJSON = request.responseText;
                         console.log(rawJSON);
                     }
                 }
 
+                //sending the request
                 request.send(parameters);
             }
         </script>
