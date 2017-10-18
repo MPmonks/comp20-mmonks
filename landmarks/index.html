@@ -38,8 +38,6 @@
                 var myLng = position.coords.longitude;
                 var parameters =  "login=DeXTiZLm&lat=" +myLat + "&lng=" + myLng;
                 var mySpot = new google.maps.LatLng(myLat, myLng);
-                console.log(parameters);
-                console.log(typeof parameters);
                 
                 //opening the request
                 request.open("POST", url, true);
@@ -56,7 +54,6 @@
                         rawJSON = request.responseText;
                         
                         var info = JSON.parse(rawJSON);
-                        console.log(info);
                         var me = {
                             url: 'mouse.jpg',
                             scaledSize: new google.maps.Size(80, 60)
@@ -96,8 +93,6 @@
                             
                             var landDist = calculateDistance( myLat, myLng, lat, lng);
                             if( landDist < minLandDist) {
-                                console.log("new closest" + name);
-                                console.log("new landDist: " + landDist);
                                 minLandDist = landDist;
                                 closest = landmark;
                             }
@@ -110,7 +105,6 @@
                             myMarker.addListener('click', function() {
                                 myInfoWindow.open(map, myMarker);
                                 var path = [{lat: myLat, lng: myLng}, {lat: closest.geometry.coordinates[1], lng: closest.geometry.coordinates[0]}];
-                                console.log("closest coords: " + closest.geometry.coordinates[1] + " " + closest.geometry.coordinates[0]);
                                 var line = new google.maps.Polyline({
                                     path: path,
                                     geodesic: true,
@@ -118,7 +112,6 @@
                                     strokeOpacity: 1.0,
                                     strokeWeight: 2
                                 });
-                                console.log()
                                 line.setMap(map);
                             });
 
