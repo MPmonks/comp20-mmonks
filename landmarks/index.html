@@ -26,16 +26,6 @@
                     zoom: 14
                     });
 
-                    var me = {
-                        url: 'mouse.jpg',
-                        scaledSize: new google.maps.Size(80, 60)
-                    };
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(mylat, mylng),
-                        icon: me,
-                        map: map
-                    });
-
                     makePostRequest(position, map);
                 }
 
@@ -47,7 +37,7 @@
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
                 var parameters =  "login=DeXTiZLm&lat=" +lat + "&lng=" + lng;
-                
+                var mySpot = new google.maps.LatLng(lat, lng);
                 console.log(parameters);
                 console.log(typeof parameters);
                 
@@ -67,7 +57,16 @@
                         
                         var info = JSON.parse(rawJSON);
                         console.log(info);
-
+                        var me = {
+                            url: 'mouse.jpg',
+                            scaledSize: new google.maps.Size(80, 60)
+                        };
+                        var marker = new google.maps.Marker({
+                            position: mySpot,
+                            icon: me,
+                            map: map
+                        });
+                        
 
 
                         info.landmarks.forEach(function(landmark) {
@@ -84,13 +83,23 @@
                                 icon: image,
                                 map: map
                             })
-                            console.log( marker);
+                            var name = landmark.properties.Location_Name;
+                            var details = landmark.properties.Details;
+                            var contentString = "<h1>" + name + "</h1>" + details;
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+                            marker.addListener('click', function() {
+                                infoWindow.open(map, marker);
+                            });
                         });
 
 
                         info.people.forEach(function(person) {
                             var lat = person.lat;
                             var lng = person.lng;
+                            var landmarkSpot = new google.maps.LatLng(lat, lng);
+                            var login = person.login;
                             var image = {
                                 url: 'jumbo.png',
                                 scaledSize: new google.maps.Size(75, 75),
@@ -98,10 +107,22 @@
                                 anchor: new google.maps.Point(0, 10)
                             };
                             var marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(lat, lng),
+                                position: landmarkSpot,
                                 icon: image,
                                 map: map
-                            }) 
+                            })
+                            console.log("landmark");
+                            console.log(landmarkSpot.toString());
+                            console.log("myspot");
+                            console.log(mySpot.toString());
+                            //var distance = google.maps.geometry.spherical.computeDistanceBetween(mySpot, landmarkSpot);
+                            var contentString = "<h1>Login: " + login + "</h1><br>";
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+                            marker.addListener('click', function() {
+                                infoWindow.open(map, marker);
+                            });
                         });
 
                        
