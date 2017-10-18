@@ -19,11 +19,23 @@
                 navigator.geolocation.getCurrentPosition(setMap);
                 
                 function setMap(position) {
-                    
-                    map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: position.coords.latitude, lng:position.coords.longitude},
-                    zoom: 16
+                    mylat = position.coords.latitude;
+                    mylng = position.coords.longitude;
+                    map = new google.maps.Map(document.getElementById('map', ), {
+                    center: {lat: mylat, lng: mylng},
+                    zoom: 14
                     });
+
+                    var me = {
+                        url: 'mouse.jpg',
+                        scaledSize: new google.maps.Size(80, 60)
+                    };
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(mylat, mylng),
+                        icon: me,
+                        map: map
+                    });
+
                     makePostRequest(position, map);
                 }
 
@@ -56,17 +68,43 @@
                         var info = JSON.parse(rawJSON);
                         console.log(info);
 
-                        //var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+
+
+                        info.landmarks.forEach(function(landmark) {
+                            var lat = landmark.geometry.coordinates[0];
+                            var lng = landmark.geometry.coordinates[1];
+                            console.log(lat + " " + lng);
+                            var image = {
+                                url: 'peanut.jpg',
+                                scaledSize: new google.maps.Size(90, 60)
+                            }
+                            var marker = new google.maps.Marker({
+                                
+                                position: new google.maps.LatLng(lng, lat),
+                                icon: image,
+                                map: map
+                            })
+                            console.log( marker);
+                        });
+
+
                         info.people.forEach(function(person) {
                             var lat = person.lat;
                             var lng = person.lng;
-                            console.log(map);
+                            var image = {
+                                url: 'jumbo.png',
+                                scaledSize: new google.maps.Size(75, 75),
+                                origin: new google.maps.Point(0,0),
+                                anchor: new google.maps.Point(0, 10)
+                            };
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(lat, lng),
-                                icon: 'jumbo.png',
+                                icon: image,
                                 map: map
-                            })
+                            }) 
                         });
+
+                       
                     }
                 }
 
