@@ -34,10 +34,10 @@
             function makePostRequest(position, map){
                 var request = new XMLHttpRequest();
                 var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
-                var lat = position.coords.latitude;
-                var lng = position.coords.longitude;
-                var parameters =  "login=DeXTiZLm&lat=" +lat + "&lng=" + lng;
-                var mySpot = new google.maps.LatLng(lat, lng);
+                var myLat = position.coords.latitude;
+                var myLng = position.coords.longitude;
+                var parameters =  "login=DeXTiZLm&lat=" +myLat + "&lng=" + myLng;
+                var mySpot = new google.maps.LatLng(myLat, myLng);
                 console.log(parameters);
                 console.log(typeof parameters);
                 
@@ -61,28 +61,29 @@
                             url: 'mouse.jpg',
                             scaledSize: new google.maps.Size(80, 60)
                         };
-                        var marker = new google.maps.Marker({
+                        var myMarker = new google.maps.Marker({
                             position: mySpot,
                             icon: me,
                             map: map
                         });
                         
 
-
+                        var minLandDist = 999999;
+                        var closest;
                         info.landmarks.forEach(function(landmark) {
-                            var lat = landmark.geometry.coordinates[0];
-                            var lng = landmark.geometry.coordinates[1];
-                            console.log(lat + " " + lng);
+                            var lat = landmark.geometry.coordinates[1];
+                            var lng = landmark.geometry.coordinates[0];
                             var image = {
                                 url: 'peanut.jpg',
                                 scaledSize: new google.maps.Size(90, 60)
                             }
                             var marker = new google.maps.Marker({
                                 
-                                position: new google.maps.LatLng(lng, lat),
+                                position: new google.maps.LatLng(lat, lng),
                                 icon: image,
                                 map: map
                             })
+                            
                             var name = landmark.properties.Location_Name;
                             var details = landmark.properties.Details;
                             var contentString = "<h1>" + name + "</h1>" + details;
@@ -92,7 +93,34 @@
                             marker.addListener('click', function() {
                                 infoWindow.open(map, marker);
                             });
+                            
+                            var landDist = calculateDistance( myLat, myLng, lat, lng);
+                            if( landDist < minLandDist) {
+                                console.log("new closest" + name);
+                                console.log("new landDist: " + landDist);
+                                minLandDist = landDist;
+                                closest = landmark;
+                            }
                         });
+
+                        var myContent = "<h1>Closest Landmark: " + closest.properties.Location_Name;
+                        var myInfoWindow = new google.maps.InfoWindow({
+                                content: myContent
+                            });
+                            myMarker.addListener('click', function() {
+                                myInfoWindow.open(map, myMarker);
+                                var path = [{lat: myLat, lng: myLng}, {lat: closest.geometry.coordinates[1], lng: closest.geometry.coordinates[0]}];
+                                console.log("closest coords: " + closest.geometry.coordinates[1] + " " + closest.geometry.coordinates[0]);
+                                var line = new google.maps.Polyline({
+                                    path: path,
+                                    geodesic: true,
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: 2
+                                });
+                                console.log()
+                                line.setMap(map);
+                            });
 
 
                         info.people.forEach(function(person) {
@@ -111,12 +139,9 @@
                                 icon: image,
                                 map: map
                             })
-                            console.log("landmark");
-                            console.log(landmarkSpot.toString());
-                            console.log("myspot");
-                            console.log(mySpot.toString());
-                            //var distance = google.maps.geometry.spherical.computeDistanceBetween(mySpot, landmarkSpot);
-                            var contentString = "<h1>Login: " + login + "</h1><br>";
+                            
+                            var distance = calculateDistance(myLat, mylng, lat, lng);
+                            var contentString = "<h1>Login: " + login + "</h1><h2>Distance: " + distance + " miles</h2>";
                             var infoWindow = new google.maps.InfoWindow({
                                 content: contentString
                             });
@@ -131,6 +156,22 @@
 
                 //sending the request
                 request.send(parameters);
+            }
+            function calculateDistance(lat1, lng1, lat2, lng2) {
+                
+                Number.prototype.toRad = function() {
+                    return this * Math.PI / 180;
+                }
+                
+                var dLat = lat2 - lat1;
+                var dLng = lng2 - lng1;
+                dLat = dLat.toRad();
+                dLng = dLng.toRad();
+
+                var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * Math.sin(dLng/2) * Math.sin(dLng/2);  
+                var distance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+                return distance * 6371;
             }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqnXl7cHrvRs1z0OCxa-fhpOe9MEhE16c&callback=initMap"
