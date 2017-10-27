@@ -16,6 +16,9 @@
 			//if enter is pressed
 			if(e.which == 13) {
 				//add text to local storage
+				var mess = $("#msg").val();
+				var time = new Date();
+				var to_store = time.parse() + " - " +  mess;
 				//clear text field				
 				$("#msg").val("");
 			}
