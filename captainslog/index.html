@@ -9,11 +9,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 	$(document).ready(function() {
+		//display all things from local storage
+		
 		//waiting for enter to be pressed
 		$(document).keypress(function(e) {
 			//if enter is pressed
 			if(e.which == 13) {
-				
+				//add text to local storage
+				//clear text field				
+				$("#msg").val("");
 			}
 		});
 	});        
