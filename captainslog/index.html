@@ -9,8 +9,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 	$(document).ready(function() {
+		display();
 		//display all things from local storage
+		function display() {
+			var values = [],
+				keys = Object.keys(localStorage);
+				size = keys.length;
 		
+			to_show = "<p>";			
+			for (i = 0; i < size; i++) {
+				values.push(localStorage.getItem(keys[i]));
+			}
+			values.forEach(function(msg) {
+				to_show +="<p>";
+				to_show += msg;
+				to_show += "</p>";
+			});
+			$("#log").html(to_show);
+		}
 		//waiting for enter to be pressed
 		$(document).keypress(function(e) {
 			//if enter is pressed
@@ -18,9 +34,12 @@
 				//add text to local storage
 				var mess = $("#msg").val();
 				var time = new Date();
-				var to_store = time.parse() + " - " +  mess;
+				var to_store = time + " - " +  mess;
+				localStorage.setItem(time, to_store);
+				console.log(to_store);
 				//clear text field				
 				$("#msg").val("");
+				display();
 			}
 		});
 	});        
