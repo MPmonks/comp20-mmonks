@@ -7,6 +7,7 @@
     <title>Captain's Log</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rozha+One" rel="stylesheet">
     <script>
 	$(document).ready(function() {
 		display();
@@ -17,7 +18,7 @@
 				size = keys.length;
 		
 			to_show = "<p>";			
-			for (i = 0; i < size; i++) {
+			for (i = size - 1; i >= 0; i--) {
 				values.push(localStorage.getItem(keys[i]));
 			}
 			values.forEach(function(msg) {
