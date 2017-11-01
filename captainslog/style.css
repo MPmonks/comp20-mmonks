@@ -1,9 +1,10 @@
 body {
-   font-family: 'Rozha One', serif;
+   font-family: 'Rozha One','Comic Sans MS', serif;
+   text-align: center;
 }
 
 h3 {
-
+   color: blue;
 }
 
 #log {
