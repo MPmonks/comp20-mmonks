@@ -13,18 +13,18 @@
     <h1>Security and Privacy Assessment of Client-Side and Server-Side</h1>
 	<h2>Introduction</h2>
 		<p>I've been hired to find potential vulnerabilities in the security of an application. This application takes user input logins and locations and stores them. It returns these logins and locations in JSON or HTML. It can also be used to search for the locations of a particular login.</p>
-	<h2>Methodology<h2>
+	<h2>Methodology</h2>
 		<p>I started testing the user input to see how that would impact the user interface. First, I tested the main page (path: "/"), then I tested the checkins display (path: "/checkins.json). The only outside technology used was curl.</p>
-	<h2>Issues Found<h2>
+	<h2>Issues Found</h2>
 		<p>The first vulnerability I found was the lack of validation of user input coming in from the POST request of /sendLocation. While there is some validation of the latitude and longitude, there is no validation for the login. This opens up the possibility for cross-site scripting (XSS). I was able to cause the main page (path: ) to redirect to the site www.omfgdogs.com. In the command line, I entered:</p><br>
-		<p> curl --data "login='<script>'window.location.assign('http://www.omfgdogs.com')'</script>'&lat=41.7723&lng=-73.2" -H POST http://sheltered-wave-40178.herokuapp.com/sendLocation</p><br>
-		<p>XSS is a very common vulnerability and so it is often exploited. So much can be corrupted through XSS, so this is at least medium in severity, if not high.</p><br>
+		<p> 'curl --data "login=<[script]>window.location.assign('http://www.omfgdogs.com')<[/script]>&lat=41.7723&lng=-73.2" -H POST http://sheltered-wave-40178.herokuapp.com/sendLocation' </p><br>
+		<p>although the script tags did not have brackets. These are included so that if anyone wishes to view this HTML document on a browser, they are not redirected to omfgdogs.com. XSS is a very common vulnerability and so it is often exploited. So much can be corrupted through XSS, so this is at least medium in severity, if not high.</p><br>
 		<p>The second vulnerability I was able to find was a lack of validation of the user's query on /checkins.json. By manipulating the query in the URL, I realized that the login query input was not validated and that MONGODB query operators could be inserted. This allows the user to change what type of search is performed. This on its own may not be a huge flaw, perhaps medium in severity.</p><br>
 		<p>This flaw leads to the third vulnerability- this one of privacy. By using the "not" query operator, any user can see all data in the set. This is a huge privacy violation, as all user logins and corresponding locations can be displayed. As such, this is a high severity issue.</p>
 	<h2>Conclusion</h2>
-
+		<p>All of the vulnerabilities that I have listed stem from user input, and so I am reccomending that future considerations will not trust user input. Additionally, the information listed in the database is highly sensitive, and so some sort of encryption or hash on the stored logins would be necessary in the event that all user data is leaked.</p>
 	<h2>References</h2>
-
+		<p>The lecture given in COMP20 by professor Ming Chow was instrumental toward my work on this testing.</p>
     </body>
 
 <html>
